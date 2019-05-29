@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, BooleanField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo,Length
 from app.models import User
+from datetime import datetime
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()]) # валидатор проверяет, что поле не пусто
@@ -26,3 +27,14 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email = email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class EditProfileForm(FlaskForm):
+    weight = StringField('Вес', validators=[DataRequired()])
+    height = StringField('Рост', validators=[DataRequired()])
+    arms = StringField('Бицепс', validators=[DataRequired()])
+    chest = StringField('Грудь', validators=[DataRequired()])
+    waist = StringField('Талия', validators=[DataRequired()])
+    femur = StringField('Бедро', validators=[DataRequired()])
+    heartDiseases = BooleanField('Сердечные заболевания', validators=[DataRequired()])
+    date_of_change = StringField(validators=[DataRequired()],default=datetime.utcnow())
+    submit = SubmitField('Обновить')
