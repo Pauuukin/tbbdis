@@ -18,6 +18,34 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+        <p>
+            {{ form.arms.label }}<br>
+            {{ form.arms(size=32) }}<br>
+            {% for error in form.arms.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.chest.label }}<br>
+            {{ form.chest(size=32) }}<br>
+            {% for error in form.chest.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.waist.label }}<br>
+            {{ form.waist(size=32) }}<br>
+            {% for error in form.waist.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.femur.label }}<br>
+            {{ form.femur(size=32) }}<br>
+            {% for error in form.femur.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}

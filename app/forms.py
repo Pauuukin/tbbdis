@@ -35,6 +35,6 @@ class EditProfileForm(FlaskForm):
     chest = StringField('Грудь', validators=[DataRequired()])
     waist = StringField('Талия', validators=[DataRequired()])
     femur = StringField('Бедро', validators=[DataRequired()])
-    heartDiseases = BooleanField('Сердечные заболевания', validators=[DataRequired()])
-    date_of_change = StringField(validators=[DataRequired()],default=datetime.utcnow())
+#    heartDiseases = BooleanField('Сердечные заболевания', validators=[DataRequired()])
+#    date_of_change = StringField(validators=[DataRequired()],default=datetime.utcnow())
     submit = SubmitField('Обновить')

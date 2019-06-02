@@ -1,14 +1,15 @@
 from flask import render_template, flash, redirect, url_for, request
-from app import app,db
+from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
-from flask_login import current_user,login_user, logout_user, login_required
+from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, InfoUser
 from werkzeug.urls import url_parse
 from datetime import datetime
 
+
 @app.route('/')
 @app.route('/index')
-@login_required     #запрещает назарегистрированным пользователям работать с данным декоратором
+@login_required  # запрещает назарегистрированным пользователям работать с данным декоратором
 def index():
     posts = [
         {
@@ -24,7 +25,7 @@ def index():
             'body': 'Какая гадость эта ваша заливная рыба!!'
         }
     ]
-    return render_template('index.html', title = 'Home Page', posts = posts)
+    return render_template('index.html', title='Home Page', posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -33,13 +34,13 @@ def login():
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
-        #ищем пользователя из базы
-        user = User.query.filter_by(username = form.username.data).first()
-        #проверяем пароль
+        # ищем пользователя из базы
+        user = User.query.filter_by(username=form.username.data).first()
+        # проверяем пароль
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        #регистрирум пользователя
+        # регистрирум пользователя
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         #
@@ -47,6 +48,7 @@ def login():
             next_page = url_for('index')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
+
 
 @app.route('/logout')
 def logout():
@@ -69,7 +71,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/user/<username>') #username - как динамический компонент URL-адреса
+@app.route('/user/<username>')  # username - как динамический компонент URL-адреса
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
@@ -77,7 +79,7 @@ def user(username):
         {'author': user, 'body': 'Test post #1'},
         {'author': user, 'body': 'Test post #2'}
     ]
-    return render_template('user.html', user=user, posts = posts)
+    return render_template('user.html', user=user, posts=posts)
 
 
 @app.before_request
@@ -87,34 +89,19 @@ def before_request():
         db.session.commit()
 
 
-@app.route('/edit_profile', methods = ['GET','POST'])
+@app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
     form = EditProfileForm()
     if form.validate_on_submit():
-        info = InfoUser(user_id = current_user.id, weight = form.weight.data, height = form.height.data)
+        info = InfoUser(info=current_user, weight=form.weight.data,
+                        height=form.height.data,
+                        arms = form.arms.data,
+                        chest = form.chest.data,
+                        waist = form.waist.data,
+                        femur = form.femur.data)
         db.session.add(info)
         db.session.commit()
         flash('Изменения внесены!')
         return redirect(url_for('edit_profile'))
-    return render_template('edit_profile.html', title = 'Edit profile', form = form)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render_template('edit_profile.html', title='Edit profile', form=form)
