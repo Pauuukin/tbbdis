@@ -37,6 +37,9 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.om/avatar/{}?d=identicon&s={}'.format(digest, size)
 
+    def information_user(self):
+        param = InfoUser.query.filter_by(user_id = self.id)
+        return param
 
 class Sport(db.Model):
     """Sport table in sqlalchemy"""

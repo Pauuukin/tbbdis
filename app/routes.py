@@ -103,5 +103,15 @@ def edit_profile():
         db.session.add(info)
         db.session.commit()
         flash('Изменения внесены!')
+    # elif request.method == 'GET':
+    #     form.femur.data = InfoUser.femur
+    #     form.waist.data = InfoUser.waist
         return redirect(url_for('edit_profile'))
     return render_template('edit_profile.html', title='Edit profile', form=form)
+
+@app.route('/pasport')
+@login_required
+def pasport():
+    param = current_user.information_user()
+    return render_template('pasport.html', title = 'Pasport', param = param)
+
