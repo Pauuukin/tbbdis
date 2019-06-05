@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, request
 from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, InfoUser
+from app.models import User, InfoUser, Training, Exercises
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -105,15 +105,16 @@ def edit_profile():
         db.session.commit()
         return redirect(url_for('edit_profile'))
         flash('Изменения внесены!')
-    elif request.method == 'GET':
-        param = current_user.lastinfo_user()
-        form.femur.data = param.femur
-        form.waist.data = param.waist
-        form.weight.data = param.weight
-        form.height.data = param.height
-        form.arms.data = param.arms
-        form.chest.data = param.chest
-        form.heartDiseases.data = param.heartDiseases
+    # elif request.method == 'GET':
+    #     param = current_user.lastinfo_user()
+    #     form.femur.data = param.femur
+    #     form.waist.data = param.waist
+    #     form.weight.data = param.weight
+    #     form.height.data = param.height
+    #     form.arms.data = param.arms
+    #     form.chest.data = param.chest
+    #     form.heartDiseases.data = param.heartDiseases
+
     return render_template('edit_profile.html', title='Edit profile', form=form)
 
 @app.route('/pasport')
@@ -121,4 +122,13 @@ def edit_profile():
 def pasport():
     param = current_user.information_user()
     return render_template('pasport.html', title = 'Pasport', param = param)
+
+
+@app.route('/current_training')
+@login_required
+def current_training():
+    u = current_user
+    t = Training.query.get(1)
+    exercises = t.all_exe()
+    return render_template('current_training.html', title = 'Тренировка', exercises = exercises)
 

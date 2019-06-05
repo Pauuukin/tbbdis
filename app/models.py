@@ -3,6 +3,7 @@ from datetime import datetime, date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from hashlib import md5
+from sqlalchemy import and_
 
 
 @login.user_loader
@@ -65,9 +66,30 @@ class Training(db.Model):
     gender = db.Column(db.String(32))
     count_day = db.Column(db.Integer)
     sport_id = db.Column(db.Integer, db.ForeignKey('sport.id'))
+    exercises_list = db.relationship('Exercises', backref='exe', lazy='dynamic')
 
     def __repr__(self):
         return '<Training {}>'.format(self.name_training)
+
+    def all_exe(self):
+        """выводим все упражнения по данной тренировке"""
+        exe = Exercises.query.filter_by(training_id = self.id)
+        return exe
+
+    def day_exe(self, day):
+        """выводим упражнение по конкретному дню"""
+        exe = Exercises.query.filter((Exercises.training_id==self.id)&(Exercises.day == day))
+        return exe
+
+
+
+class Exercises(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
+    name_exercises = db.Column(db.String(256), index=True)
+    rules = db.Column(db.Text(500), index=True)
+    day = db.Column(db.Integer)
+    count = db.Column(db.Integer)
 
 
 class TrainingList(db.Model):
@@ -77,21 +99,6 @@ class TrainingList(db.Model):
     date_finish = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
-
-
-#    all_exercises = db.relationship('AllExercises', backref='exercises_list', lazy='dynamic')
-
-
-class Exercises(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name_exercises = db.Column(db.String(256), index=True)
-    rules = db.Column(db.Text(500), index=True)
-
-
-# class UserParametrs(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-
-
 #
 # class AllExercises(db.Model):
 #     exercises_id = db.Column(db.Integer, db.ForeignKey('exercises.TypeError: descriptor 'date' of 'datetime.datetime' object needs an argumentid'))

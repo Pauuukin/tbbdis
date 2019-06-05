@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Pasport</h1>
+<table>
+    <tr valign="top">
+        <td> Название упражнения </td>
+        <td> Правила выполнения упражнения </td>
+        <td> Количество </td>
+
+    {% for exercises in exercises %}
+        {% include '_exe.html' %}
+    {% endfor %}
+</table>
+{% endblock %}
