@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, BooleanField,SelectField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo,Length
 from app.models import User
 from datetime import datetime
@@ -35,6 +35,6 @@ class EditProfileForm(FlaskForm):
     chest = StringField('Грудь', validators=[DataRequired()])
     waist = StringField('Талия', validators=[DataRequired()])
     femur = StringField('Бедро', validators=[DataRequired()])
-#    heartDiseases = BooleanField('Сердечные заболевания', validators=[DataRequired()])
-#    date_of_change = StringField(validators=[DataRequired()],default=datetime.utcnow())
+    heartDiseases = SelectField('Наличие сердечных заболеваний',  choices = [('No','Нет'),('Yes','Да')])
+
     submit = SubmitField('Обновить')

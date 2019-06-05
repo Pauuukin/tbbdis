@@ -1,5 +1,5 @@
 from app import db, login
-from datetime import datetime
+from datetime import datetime, date
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from hashlib import md5
@@ -40,6 +40,10 @@ class User(UserMixin, db.Model):
     def information_user(self):
         param = InfoUser.query.filter_by(user_id = self.id)
         return param
+
+    def lastinfo_user(self):
+        param = InfoUser.query.filter_by(user_id=self.id)
+        return param[-1]
 
 class Sport(db.Model):
     """Sport table in sqlalchemy"""
@@ -90,7 +94,7 @@ class Exercises(db.Model):
 
 #
 # class AllExercises(db.Model):
-#     exercises_id = db.Column(db.Integer, db.ForeignKey('exercises.id'))
+#     exercises_id = db.Column(db.Integer, db.ForeignKey('exercises.TypeError: descriptor 'date' of 'datetime.datetime' object needs an argumentid'))
 #     training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
 #     day = db.Column(db.Integer)
 #     count = db.Column(db.Integer)
@@ -105,6 +109,6 @@ class InfoUser(db.Model):
     waist = db.Column(db.Integer)
     femur = db.Column(db.Integer)
     heartDiseases = db.Column(db.String(12))
-    date_of_change = db.Column(db.DateTime, default=datetime.utcnow)
+    date_of_change = db.Column(db.Date, default=datetime.utcnow())
     training_list_id = db.Column(db.Integer, db.ForeignKey('training_list.id'))
 

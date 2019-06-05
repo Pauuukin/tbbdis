@@ -99,14 +99,21 @@ def edit_profile():
                         arms = form.arms.data,
                         chest = form.chest.data,
                         waist = form.waist.data,
-                        femur = form.femur.data)
+                        femur = form.femur.data,
+                        heartDiseases= form.heartDiseases.data)
         db.session.add(info)
         db.session.commit()
-        flash('Изменения внесены!')
-    # elif request.method == 'GET':
-    #     form.femur.data = InfoUser.femur
-    #     form.waist.data = InfoUser.waist
         return redirect(url_for('edit_profile'))
+        flash('Изменения внесены!')
+    elif request.method == 'GET':
+        param = current_user.lastinfo_user()
+        form.femur.data = param.femur
+        form.waist.data = param.waist
+        form.weight.data = param.weight
+        form.height.data = param.height
+        form.arms.data = param.arms
+        form.chest.data = param.chest
+        form.heartDiseases.data = param.heartDiseases
     return render_template('edit_profile.html', title='Edit profile', form=form)
 
 @app.route('/pasport')
