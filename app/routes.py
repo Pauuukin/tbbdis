@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, SelectTrainingForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, InfoUser, Training, Exercises
 from werkzeug.urls import url_parse
@@ -96,11 +96,11 @@ def edit_profile():
     if form.validate_on_submit():
         info = InfoUser(info=current_user, weight=form.weight.data,
                         height=form.height.data,
-                        arms = form.arms.data,
-                        chest = form.chest.data,
-                        waist = form.waist.data,
-                        femur = form.femur.data,
-                        heartDiseases= form.heartDiseases.data)
+                        arms=form.arms.data,
+                        chest=form.chest.data,
+                        waist=form.waist.data,
+                        femur=form.femur.data,
+                        heartDiseases=form.heartDiseases.data)
         db.session.add(info)
         db.session.commit()
         return redirect(url_for('edit_profile'))
@@ -117,11 +117,33 @@ def edit_profile():
 
     return render_template('edit_profile.html', title='Edit profile', form=form)
 
+
 @app.route('/pasport')
 @login_required
 def pasport():
     param = current_user.information_user()
-    return render_template('pasport.html', title = 'Pasport', param = param)
+    return render_template('pasport.html', title='Pasport', param=param)
+
+
+@app.route('/select_training', methods =['GET','POST'])
+@login_required
+def select_training():
+    form = SelectTrainingForm()
+
+    if form.validate_on_submit():
+        select_t = Training(tipe=form.tipe.data,
+                            muscle_group=form.muscle_group.data,
+                            name_sport=form.name_sport.data,
+                            gender = current_user.gender)
+        if select_t.tipe == 'no':
+            select_t.tipe = 'Для начинающих'
+        elif select_t.muscle_group == 'no':
+            select_t.muscle_group = 'Все тело'
+        select_t.search_training()
+
+    return render_template('select_training.html', title='Подбор тренировки', form = form)
+
+
 
 
 @app.route('/current_training')
@@ -130,5 +152,4 @@ def current_training():
     u = current_user
     t = Training.query.get(1)
     exercises = t.all_exe()
-    return render_template('current_training.html', title = 'Тренировка', exercises = exercises)
-
+    return render_template('current_training.html', title='Тренировка', exercises=exercises)

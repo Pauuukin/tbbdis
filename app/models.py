@@ -39,12 +39,13 @@ class User(UserMixin, db.Model):
         return 'https://www.gravatar.om/avatar/{}?d=identicon&s={}'.format(digest, size)
 
     def information_user(self):
-        param = InfoUser.query.filter_by(user_id = self.id)
+        param = InfoUser.query.filter_by(user_id=self.id)
         return param
 
     def lastinfo_user(self):
         param = InfoUser.query.filter_by(user_id=self.id)
         return param[-1]
+
 
 # class Sport(db.Model):
 #     """Sport table in sqlalchemy"""
@@ -73,14 +74,20 @@ class Training(db.Model):
 
     def all_exe(self):
         """выводим все упражнения по данной тренировке"""
-        exe = Exercises.query.filter_by(training_id = self.id)
+        exe = Exercises.query.filter_by(training_id=self.id)
         return exe
 
     def day_exe(self, day):
         """выводим упражнение по конкретному дню"""
-        exe = Exercises.query.filter((Exercises.training_id==self.id)&(Exercises.day == day))
+        exe = Exercises.query.filter((Exercises.training_id == self.id) & (Exercises.day == day))
         return exe
 
+    def search_training(self):
+        """первоначальная выборка тренировок"""
+        selected_training = Training.query.filter(Training.gender == self.gender).filter(
+            (Training.muscle_group == self.muscle_group) | (
+                        Training.name_sport == self.name_sport) | Training.tipe == self.tipe)
+        return selected_training
 
 
 class Exercises(db.Model):
@@ -101,7 +108,6 @@ class TrainingList(db.Model):
     training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
 
 
-
 class InfoUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -114,4 +120,3 @@ class InfoUser(db.Model):
     heartDiseases = db.Column(db.String(12))
     date_of_change = db.Column(db.Date, default=datetime.utcnow())
     training_list_id = db.Column(db.Integer, db.ForeignKey('training_list.id'))
-

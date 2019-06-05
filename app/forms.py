@@ -38,3 +38,19 @@ class EditProfileForm(FlaskForm):
     heartDiseases = SelectField('Наличие сердечных заболеваний',  choices = [('No','Нет'),('Yes','Да')])
 
     submit = SubmitField('Обновить')
+
+class SelectTrainingForm(FlaskForm):
+    tipe = SelectField('Выберите тип тренировки', choices=[('no', 'Не важно'),
+                                                           ('Для начинающих', 'для начинающих'),
+                                                           ('Для профессионалов', 'Для профессионалов')])
+    muscle_group = SelectField('Выберите группу мышц', choices=[('no', 'Не важно'),
+                                                                ('Все тело', 'Все тело'),
+                                                                ('Ноги', 'Ноги'),
+                                                                ('Руки', 'Руки'),
+                                                                ('Пресс', 'Пресс')])
+
+    name_sport = SelectField('Выберите вид спорта', choices=[('no', 'Не важно'),
+                                                                ('Теннис', 'Теннис'),
+                                                                ('Легкая атлетика', 'Легкая атлетика'),
+                                                                ('Футбол', 'Футбол')])
+    submit = SubmitField('Подобрать тренировку!')

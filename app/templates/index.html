@@ -5,5 +5,5 @@
     {% for post in posts %}
     <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
     {% endfor %}
-<p><a href="{{ url_for('current_training') }}"> Перейти к тренировке! </a></p>
+<p><a href="{{ url_for('select_training') }}"> Перейти к тренировке! </a></p>
 {% endblock %}
