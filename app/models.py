@@ -46,15 +46,15 @@ class User(UserMixin, db.Model):
         param = InfoUser.query.filter_by(user_id=self.id)
         return param[-1]
 
-class Sport(db.Model):
-    """Sport table in sqlalchemy"""
-    id = db.Column(db.Integer, primary_key=True)
-    name_sport = db.Column(db.String(256), index=True)
-    info = db.Column(db.Text(500), index=True)
-    trainings = db.relationship('Training', backref='sport_training', lazy='dynamic')
-
-    def __repr__(self):
-        return '<Sport {}>'.format(self.name_sport)
+# class Sport(db.Model):
+#     """Sport table in sqlalchemy"""
+#     id = db.Column(db.Integer, primary_key=True)
+#     name_sport = db.Column(db.String(256), index=True)
+#     info = db.Column(db.Text(500), index=True)
+#     trainings = db.relationship('Training', backref='sport_training', lazy='dynamic')
+#
+#     def __repr__(self):
+#         return '<Sport {}>'.format(self.name_sport)
 
 
 class Training(db.Model):
@@ -65,7 +65,7 @@ class Training(db.Model):
     muscle_group = db.Column(db.String(256))
     gender = db.Column(db.String(32))
     count_day = db.Column(db.Integer)
-    sport_id = db.Column(db.Integer, db.ForeignKey('sport.id'))
+    name_sport = db.Column(db.String(64))
     exercises_list = db.relationship('Exercises', backref='exe', lazy='dynamic')
 
     def __repr__(self):
@@ -85,11 +85,11 @@ class Training(db.Model):
 
 class Exercises(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
     name_exercises = db.Column(db.String(256), index=True)
     rules = db.Column(db.Text(500), index=True)
     day = db.Column(db.Integer)
-    count = db.Column(db.Integer)
+    number = db.Column(db.Integer)
+    training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
 
 
 class TrainingList(db.Model):
@@ -99,12 +99,8 @@ class TrainingList(db.Model):
     date_finish = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
-#
-# class AllExercises(db.Model):
-#     exercises_id = db.Column(db.Integer, db.ForeignKey('exercises.TypeError: descriptor 'date' of 'datetime.datetime' object needs an argumentid'))
-#     training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
-#     day = db.Column(db.Integer)
-#     count = db.Column(db.Integer)
+
+
 
 class InfoUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
