@@ -1,55 +1,11 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-{% block content %}
-    <h1>Тренировка</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.weight.label }}<br>
-            {{ form.weight(size=32) }}<br>
-            {% for error in form.weight.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.height.label }}<br>
-            {{ form.height(size=32) }}<br>
-            {% for error in form.height.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.arms.label }}<br>
-            {{ form.arms(size=32) }}<br>
-            {% for error in form.arms.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.chest.label }}<br>
-            {{ form.chest(size=32) }}<br>
-            {% for error in form.chest.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.waist.label }}<br>
-            {{ form.waist(size=32) }}<br>
-            {% for error in form.waist.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.femur.label }}<br>
-            {{ form.femur(size=32) }}<br>
-            {% for error in form.femur.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-         <p>
-            {{ form.heartDiseases.label }}<br>
-            {{ form.heartDiseases }}<br>
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+{% block app_content %}
+    <h1>Обновить данные</h1>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
 {% endblock %}

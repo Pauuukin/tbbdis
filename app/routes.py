@@ -125,23 +125,24 @@ def pasport():
     return render_template('pasport.html', title='Pasport', param=param)
 
 
-@app.route('/select_training', methods =['GET','POST'])
-@login_required
-def select_training():
-    form = SelectTrainingForm()
-
-    if form.validate_on_submit():
-        select_t = Training(tipe=form.tipe.data,
-                            muscle_group=form.muscle_group.data,
-                            name_sport=form.name_sport.data,
-                            gender = current_user.gender)
-        if select_t.tipe == 'no':
-            select_t.tipe = 'Для начинающих'
-        elif select_t.muscle_group == 'no':
-            select_t.muscle_group = 'Все тело'
-        select_t.search_training()
-
-    return render_template('select_training.html', title='Подбор тренировки', form = form)
+# @app.route('/select_training', methods =['GET','POST'])
+# @login_required
+# def select_training():
+#     form = SelectTrainingForm()
+#
+#     if form.validate_on_submit():
+#         select_t = Training(tipe=form.tipe.data,
+#                             muscle_group=form.muscle_group.data,
+#                             name_sport=form.name_sport.data,
+#                             gender = current_user.gender)
+#         if select_t.tipe == 'no':
+#             select_t.tipe = 'Для начинающих'
+#         elif select_t.muscle_group == 'no':
+#             select_t.muscle_group = 'Все тело'
+#         select_t.search_training()
+#
+#
+#     return render_template('select_training.html', title='Подбор тренировки', form = form)
 
 
 

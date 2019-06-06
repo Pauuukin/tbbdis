@@ -1,21 +1,10 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block app_content %}
     <h1>Тренировка</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-         <p>
-            {{ form.tipe.label }}<br>
-            {{ form.tipe }}<br>
-        </p>
-        <p>
-            {{ form.muscle_group.label }}<br>
-            {{ form.muscle_group }}<br>
-        </p>
-        <p>
-            {{ form.name_sport.label }}<br>
-            {{ form.name_sport }}<br>
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
 {% endblock %}
