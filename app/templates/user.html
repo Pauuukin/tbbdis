@@ -16,6 +16,7 @@
         </tr>
     </table>
     <hr>
+    {%if user.active_training == 1%}
     <h2> Задание на сегодня:</h2>
 <table class="table-hover" >
     <tr valign="top">
@@ -26,5 +27,6 @@
     {% for exercises in exercises %}
         {% include '_exe.html' %}
     {% endfor %}
+    {%endif%}
 </table>
 {% endblock %}

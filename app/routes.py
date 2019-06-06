@@ -75,10 +75,13 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    training_id = TrainingList(user_id = current_user.id)
-    i = training_id.get_training()
-    exe = Training(id = i.training_id)
-    exercises =  exe.day_exe(1)
+    exercises = []
+    if user.active_training ==1:
+        training_id = TrainingList(user_id = current_user.id)
+        i = training_id.get_training()
+        exe = Training(id = i.training_id)
+        exercises = exe.day_exe(1)
+
     return render_template('user.html', user=user, exercises =exercises)
 
 
@@ -163,6 +166,10 @@ def current_training(training):
     if form.validate_on_submit():
         user_t = TrainingList(training_id = training,
                               user_id = current_user.id)
+        user = User.query.filter_by(id = current_user.id).first_or_404()
+        if user:
+            user.active_training =1
+            db.session.add(user)
         db.session.add(user_t)
         db.session.commit()
        # return redirect(url_for('index'))

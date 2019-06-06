@@ -24,6 +24,7 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
     training_lists = db.relationship('TrainingList', backref='training_list', lazy='dynamic')
     userinfo = db.relationship('InfoUser', backref='info', lazy='dynamic')
+    active_training = db.Column(db.Integer, default = 0)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
