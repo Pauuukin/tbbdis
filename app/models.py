@@ -82,11 +82,13 @@ class Training(db.Model):
         exe = Exercises.query.filter((Exercises.training_id == self.id) & (Exercises.day == day))
         return exe
 
+    def all_training(self):
+        t = Training.query.all()
+        return t
+
     def search_training(self):
         """первоначальная выборка тренировок"""
-        selected_training = Training.query.filter(Training.gender == self.gender).filter(
-            (Training.muscle_group == self.muscle_group) | (
-                        Training.name_sport == self.name_sport) | Training.tipe == self.tipe)
+        selected_training = Training.query.filter(Training.gender == self.gender).filter((Training.muscle_group == self.muscle_group) & (Training.name_sport == self.name_sport) & (Training.tipe == self.tipe))
         return selected_training
 
 

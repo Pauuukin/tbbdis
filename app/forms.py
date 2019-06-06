@@ -13,6 +13,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Логин', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    gender = SelectField('Выберите пол',  choices = [('Мужской','Мужской'),('Женский','Женский')])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField('Повторите пароль', validators = [DataRequired(), EqualTo('password')])
     submit = SubmitField('Зарегистрироваться')
@@ -40,16 +41,16 @@ class EditProfileForm(FlaskForm):
     submit = SubmitField('Обновить')
 
 class SelectTrainingForm(FlaskForm):
-    tipe = SelectField('Выберите тип тренировки', choices=[('no', 'Не важно'),
-                                                           ('Для начинающих', 'для начинающих'),
+    tipe = SelectField('Выберите тип тренировки', default=  'Не важно', choices=[('Нет', 'Не важно'),
+                                                           ('Для начинающих', 'Для начинающих'),
                                                            ('Для профессионалов', 'Для профессионалов')])
-    muscle_group = SelectField('Выберите группу мышц', choices=[('no', 'Не важно'),
+    muscle_group = SelectField('Выберите группу мышц', choices=[('Нет', 'Не важно'),
                                                                 ('Все тело', 'Все тело'),
                                                                 ('Ноги', 'Ноги'),
                                                                 ('Руки', 'Руки'),
                                                                 ('Пресс', 'Пресс')])
 
-    name_sport = SelectField('Выберите вид спорта', choices=[('no', 'Не важно'),
+    name_sport = SelectField('Выберите вид спорта', choices=[('Нет', 'Не важно'),
                                                                 ('Теннис', 'Теннис'),
                                                                 ('Легкая атлетика', 'Легкая атлетика'),
                                                                 ('Футбол', 'Футбол')])

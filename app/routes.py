@@ -62,7 +62,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, gender = form.gender.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -121,28 +121,34 @@ def edit_profile():
 @app.route('/pasport')
 @login_required
 def pasport():
+    """Выводит все записи информации о пользователе"""
     param = current_user.information_user()
     return render_template('pasport.html', title='Pasport', param=param)
 
 
-# @app.route('/select_training', methods =['GET','POST'])
-# @login_required
-# def select_training():
-#     form = SelectTrainingForm()
-#
-#     if form.validate_on_submit():
-#         select_t = Training(tipe=form.tipe.data,
-#                             muscle_group=form.muscle_group.data,
-#                             name_sport=form.name_sport.data,
-#                             gender = current_user.gender)
-#         if select_t.tipe == 'no':
-#             select_t.tipe = 'Для начинающих'
-#         elif select_t.muscle_group == 'no':
-#             select_t.muscle_group = 'Все тело'
-#         select_t.search_training()
-#
-#
-#     return render_template('select_training.html', title='Подбор тренировки', form = form)
+
+
+
+@app.route('/select_training', methods =['GET','POST'])
+@login_required
+def select_training():
+    form = SelectTrainingForm()
+    select_t = Training
+    if form.validate_on_submit():
+        select_t = Training(tipe=form.tipe.data,
+                            muscle_group=form.muscle_group.data,
+                            name_sport=form.name_sport.data,
+                            gender = current_user.gender)
+        if select_t.tipe == 'Нет':
+            select_t.tipe = 'Для начинающих'
+        if select_t.muscle_group == 'Нет':
+            select_t.muscle_group = 'Все тело'
+        t = select_t.search_training()
+        # db.session.add(select_t)
+        # db.session.commit()
+        return render_template('select_training.html', training = t, form = form)
+
+    return render_template('select_training.html', title='Подбор тренировки', form = form)
 
 
 
@@ -150,6 +156,7 @@ def pasport():
 @app.route('/current_training')
 @login_required
 def current_training():
+    """Выводит все упражнения выбранной тренировки на экран"""
     u = current_user
     t = Training.query.get(1)
     exercises = t.all_exe()

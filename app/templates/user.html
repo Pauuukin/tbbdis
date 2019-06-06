@@ -9,6 +9,7 @@
                 {% if user.last_seen %}<p>Последний раз в сети: {{ user.last_seen }}</p>{% endif %}
                 {% if user == current_user %}
                 <p><a href="{{ url_for('pasport') }}">Перейти к паспорту здоровья</a></p>
+                <p><a href="{{ url_for('select_training') }}">Подобрать тренировку!</a></p>
 
                 {% endif %}
             </td>
