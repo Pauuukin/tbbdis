@@ -1,5 +1,5 @@
-    <tr valign="top">
-        <td align="center">{{ training.name_training }}</td>
+<tr valign="top">
+        <td align="center"> <a href="{{ url_for('current_training',training = training.id ) }}">{{ training.name_training }}</a></td>
         <td align="center">{{ training.tipe }} </td>
         <td align="center">{{ training.muscle_group }} </td>
         <td align="center">{{ training.count_day }} </td>

@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, SelectTrainingForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, SelectTrainingForm, AcceptTrainingForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, InfoUser, Training, Exercises
+from app.models import User, InfoUser, Training, TrainingList
 from werkzeug.urls import url_parse
 from datetime import datetime
 
@@ -75,11 +75,11 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post #1'},
-        {'author': user, 'body': 'Test post #2'}
-    ]
-    return render_template('user.html', user=user, posts=posts)
+    training_id = TrainingList(user_id = current_user.id)
+    i = training_id.get_training()
+    exe = Training(id = i.training_id)
+    exercises =  exe.day_exe(1)
+    return render_template('user.html', user=user, exercises =exercises)
 
 
 @app.before_request
@@ -153,11 +153,20 @@ def select_training():
 
 
 
-@app.route('/current_training')
+@app.route('/current_training/<training>',methods = ['GET','POST'])
 @login_required
-def current_training():
+def current_training(training):
     """Выводит все упражнения выбранной тренировки на экран"""
-    u = current_user
-    t = Training.query.get(1)
+    t = Training.query.filter_by(id=training).first_or_404()
     exercises = t.all_exe()
-    return render_template('current_training.html', title='Тренировка', exercises=exercises)
+    form = AcceptTrainingForm()
+    if form.validate_on_submit():
+        user_t = TrainingList(training_id = training,
+                              user_id = current_user.id)
+        db.session.add(user_t)
+        db.session.commit()
+       # return redirect(url_for('index'))
+        flash('Тренировка закреплена за вами!')
+    return render_template('current_training.html', title='Тренировка', exercises=exercises, form = form)
+
+

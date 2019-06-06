@@ -16,7 +16,15 @@
         </tr>
     </table>
     <hr>
-    {% for post in posts %}
-        {% include '_post.html' %}
+    <h2> Задание на сегодня:</h2>
+<table class="table-hover" >
+    <tr valign="top">
+        <td align="center"> Название упражнения </td>
+        <td align="center"> Правила выполнения упражнения </td>
+        <td align="center"> Количество </td>
+
+    {% for exercises in exercises %}
+        {% include '_exe.html' %}
     {% endfor %}
+</table>
 {% endblock %}

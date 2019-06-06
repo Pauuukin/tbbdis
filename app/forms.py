@@ -55,3 +55,7 @@ class SelectTrainingForm(FlaskForm):
                                                                 ('Легкая атлетика', 'Легкая атлетика'),
                                                                 ('Футбол', 'Футбол')])
     submit = SubmitField('Подобрать тренировку!')
+
+
+class AcceptTrainingForm(FlaskForm):
+    submit = SubmitField('Принять тренировку!')

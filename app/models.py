@@ -109,6 +109,10 @@ class TrainingList(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
 
+    def get_training(self):
+        selected_training = TrainingList.query.filter_by(user_id = self.user_id).first()
+        return selected_training
+
 
 class InfoUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
