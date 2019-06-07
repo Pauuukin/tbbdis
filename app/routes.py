@@ -11,21 +11,13 @@ from datetime import datetime
 @app.route('/index')
 @login_required  # запрещает назарегистрированным пользователям работать с данным декоратором
 def index():
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        },
-        {
-            'author': {'username': 'Ипполит'},
-            'body': 'Какая гадость эта ваша заливная рыба!!'
-        }
-    ]
-    return render_template('index.html', title='Home Page', posts=posts)
+    exercises = []
+    if current_user.active_training == 1:
+        training_id = TrainingList(user_id=current_user.id)
+        i = training_id.get_training()
+        exe = Training(id=i.training_id)
+        exercises = exe.day_exe(1)
+    return render_template('index.html', title='Home Page', exercises = exercises)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -75,14 +67,9 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    exercises = []
-    if user.active_training ==1:
-        training_id = TrainingList(user_id = current_user.id)
-        i = training_id.get_training()
-        exe = Training(id = i.training_id)
-        exercises = exe.day_exe(1)
 
-    return render_template('user.html', user=user, exercises =exercises)
+
+    return render_template('user.html', user=user)
 
 
 @app.before_request

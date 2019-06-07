@@ -111,8 +111,8 @@ class TrainingList(db.Model):
     training_id = db.Column(db.Integer, db.ForeignKey('training.id'))
 
     def get_training(self):
-        selected_training = TrainingList.query.filter_by(user_id = self.user_id).first()
-        return selected_training
+        selected_training = TrainingList.query.filter_by(user_id = self.user_id)
+        return selected_training[-1]
 
 
 class InfoUser(db.Model):

@@ -3,8 +3,18 @@
 
 {% block app_content %}
     <h1>Привет, {{ current_user.username }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
 
+{%if current_user.active_training == 1%}
+    <h2> Задание на сегодня:</h2>
+<table class="table-hover" >
+    <tr valign="top">
+        <td align="center"> Название упражнения </td>
+        <td align="center"> Правила выполнения упражнения </td>
+        <td align="center"> Количество </td>
+
+    {% for exercises in exercises %}
+        {% include '_exe.html' %}
+    {% endfor %}
+    {%endif%}
+</table>
 {% endblock %}

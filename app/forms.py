@@ -32,10 +32,10 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     weight = StringField('Вес', validators=[DataRequired()])
     height = StringField('Рост', validators=[DataRequired()])
-    arms = StringField('Бицепс', validators=[DataRequired()])
-    chest = StringField('Грудь', validators=[DataRequired()])
-    waist = StringField('Талия', validators=[DataRequired()])
-    femur = StringField('Бедро', validators=[DataRequired()])
+    arms = StringField('Обхват бицепс', validators=[DataRequired()])
+    chest = StringField('Обхват груди', validators=[DataRequired()])
+    waist = StringField('Обхват талии', validators=[DataRequired()])
+    femur = StringField('Обхват бёдер', validators=[DataRequired()])
     heartDiseases = SelectField('Наличие сердечных заболеваний',  choices = [('No','Нет'),('Yes','Да')])
 
     submit = SubmitField('Обновить')
