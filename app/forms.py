@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, BooleanField,SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, BooleanField,SelectField, RadioField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo,Length
 from app.models import User
 from datetime import datetime
@@ -16,6 +16,7 @@ class RegistrationForm(FlaskForm):
     gender = SelectField('Выберите пол',  choices = [('Мужской','Мужской'),('Женский','Женский')])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField('Повторите пароль', validators = [DataRequired(), EqualTo('password')])
+    rules = RadioField('Приложение несет лишь рекомендательный характер. Мы не несем ответственности за ваше здоровье.',choices = [('П','Принимаю'),('О','Отказываюсь')])
     submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, username):
@@ -59,3 +60,7 @@ class SelectTrainingForm(FlaskForm):
 
 class AcceptTrainingForm(FlaskForm):
     submit = SubmitField('Принять тренировку!')
+
+
+class CompleteExeForm(FlaskForm):
+    submit = SubmitField('Готово!')

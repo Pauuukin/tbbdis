@@ -114,6 +114,8 @@ class TrainingList(db.Model):
         selected_training = TrainingList.query.filter_by(user_id = self.user_id)
         return selected_training[-1]
 
+    def get_id(self):
+        return self.id
 
 class InfoUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)

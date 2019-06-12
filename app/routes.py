@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, SelectTrainingForm, AcceptTrainingForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, SelectTrainingForm, AcceptTrainingForm, CompleteExeForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, InfoUser, Training, TrainingList
 from werkzeug.urls import url_parse
@@ -8,16 +8,20 @@ from datetime import datetime
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 @login_required  # запрещает назарегистрированным пользователям работать с данным декоратором
 def index():
     exercises = []
+    form = CompleteExeForm()
     if current_user.active_training == 1:
         training_id = TrainingList(user_id=current_user.id)
         i = training_id.get_training()
         exe = Training(id=i.training_id)
         exercises = exe.day_exe(1)
-    return render_template('index.html', title='Home Page', exercises = exercises)
+    if form.validate_on_submit():
+        flash('Отлично! Приходи завтра, здесь будут новые упражнения!')
+        return redirect(url_for('index'))
+    return render_template('index.html', title='Home Page', exercises = exercises, form = form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -30,7 +34,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         # проверяем пароль
         if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
+            flash('Логин или пароль введены неверно!')
             return redirect(url_for('login'))
         # регистрирум пользователя
         login_user(user, remember=form.remember_me.data)
@@ -58,7 +62,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Поздравляем! Теперь вы зарегистрированы!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
@@ -67,8 +71,6 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-
-
     return render_template('user.html', user=user)
 
 
@@ -123,7 +125,6 @@ def pasport():
 @login_required
 def select_training():
     form = SelectTrainingForm()
-    select_t = Training
     if form.validate_on_submit():
         select_t = Training(tipe=form.tipe.data,
                             muscle_group=form.muscle_group.data,
@@ -134,6 +135,9 @@ def select_training():
         if select_t.muscle_group == 'Нет':
             select_t.muscle_group = 'Все тело'
         t = select_t.search_training()
+
+        # нужна проверка на возраст
+
         # db.session.add(select_t)
         # db.session.commit()
         return render_template('select_training.html', training = t, form = form)
@@ -164,3 +168,15 @@ def current_training(training):
     return render_template('current_training.html', title='Тренировка', exercises=exercises, form = form)
 
 
+@app.route('/training_user')
+@login_required
+def training_user():
+    """Выводит все упражнения выбранной тренировки на экран"""
+    if current_user.active_training == 1:
+
+        training_id = TrainingList(user_id=current_user.id)
+        i = training_id.get_training()
+        exe = Training(id=i.training_id)
+
+        exercises = exe.all_exe()
+    return render_template('training_user.html', title='Тренировка', exercises=exercises)

@@ -6,7 +6,7 @@
 
 {%if current_user.active_training == 1%}
     <h2> Задание на сегодня:</h2>
-<table class="table-hover" >
+<table class="table table-hover" >
     <tr valign="top">
         <td align="center"> Название упражнения </td>
         <td align="center"> Правила выполнения упражнения </td>
@@ -17,4 +17,19 @@
     {% endfor %}
     {%endif%}
 </table>
+<br>
+<div class="row" align="center">
+    {{ wtf.quick_form(form) }}
+</div>
+<br> <br>
+
+ <div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-8">
+      <h2>Совет</h2>
+      <h3>Дело не в количестве, а в качетсве</h3>
+      <p>Не спешите скорее выполнить все упражнения! Главное - следовать инструкциям и не торопиться. Вы можете быстро сделать 20 отжиманий, но мышцы не успеют получить достаточно полезной нагрузки, и эффективность тренировки упадет. Гораздо полезней делать упражнения медленно и четко следовать правилам выполнения.</p>
+      <br>
+  </div>
+</div>
 {% endblock %}
