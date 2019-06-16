@@ -30,22 +30,26 @@ class User(UserMixin, db.Model):
         return '<User {}>'.format(self.username)
 
     def set_password(self, password):
+        """Генерируем хеш пароля"""
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
+        """Проверка пароля"""
         return check_password_hash(self.password_hash, password)
 
-    def avatar(self, size):
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.om/avatar/{}?d=identicon&s={}'.format(digest, size)
-
     def information_user(self):
+        """Отдаем данные для формирования паспорта здоровья"""
         param = InfoUser.query.filter_by(user_id=self.id)
         return param
 
     def lastinfo_user(self):
+        """Получаем последние введенные параметры тела пользователя для подбора тренировки"""
         param = InfoUser.query.filter_by(user_id=self.id)
         return param[-1]
+
+    def avatar(self, size):
+        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        return 'https://www.gravatar.om/avatar/{}?d=identicon&s={}'.format(digest, size)
 
 
 # class Sport(db.Model):
@@ -126,6 +130,7 @@ class InfoUser(db.Model):
     chest = db.Column(db.Integer)
     waist = db.Column(db.Integer)
     femur = db.Column(db.Integer)
+    shoulder = db.Column(db.Integer)
     heartDiseases = db.Column(db.String(12))
     date_of_change = db.Column(db.Date, default=datetime.utcnow())
     training_list_id = db.Column(db.Integer, db.ForeignKey('training_list.id'))

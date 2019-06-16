@@ -91,6 +91,7 @@ def edit_profile():
                         arms=form.arms.data,
                         chest=form.chest.data,
                         waist=form.waist.data,
+                        shoulder = form.shoulder.data,
                         femur=form.femur.data,
                         heartDiseases=form.heartDiseases.data)
         db.session.add(info)

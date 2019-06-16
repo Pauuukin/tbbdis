@@ -34,7 +34,7 @@ class EditProfileForm(FlaskForm):
     weight = StringField('Вес', validators=[DataRequired()])
     height = StringField('Рост', validators=[DataRequired()])
     arms = StringField('Обхват бицепса', validators=[DataRequired()])
-
+    shoulder = StringField('Обхват плеч', validators=[DataRequired()])
     chest = StringField('Обхват груди', validators=[DataRequired()])
     waist = StringField('Обхват талии', validators=[DataRequired()])
     femur = StringField('Обхват бёдер', validators=[DataRequired()])
