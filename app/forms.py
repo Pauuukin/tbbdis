@@ -22,18 +22,19 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username = username.data).first()
         if user is not None:
-            raise ValidationError('Please use a different username.')
+            raise ValidationError('Пожалуйста, выберите другое имя.')
 
 
     def validate_email(self, email):
         user = User.query.filter_by(email = email.data).first()
         if user is not None:
-            raise ValidationError('Please use a different email address.')
+            raise ValidationError('Такой Email уже зарегистрирован! Пожалуста, введите другой.')
 
 class EditProfileForm(FlaskForm):
     weight = StringField('Вес', validators=[DataRequired()])
     height = StringField('Рост', validators=[DataRequired()])
-    arms = StringField('Обхват бицепс', validators=[DataRequired()])
+    arms = StringField('Обхват бицепса', validators=[DataRequired()])
+
     chest = StringField('Обхват груди', validators=[DataRequired()])
     waist = StringField('Обхват талии', validators=[DataRequired()])
     femur = StringField('Обхват бёдер', validators=[DataRequired()])
