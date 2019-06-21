@@ -178,6 +178,14 @@ def training_user():
         training_id = TrainingList(user_id=current_user.id)
         i = training_id.get_training()
         exe = Training(id=i.training_id)
-
         exercises = exe.all_exe()
     return render_template('training_user.html', title='Тренировка', exercises=exercises)
+
+@app.route('/sogl.html')
+def sogl():
+    return render_template('sogl.html', title='Соглашение')
+
+
+@app.route('/recipe.html')
+def recipe():
+    return render_template('recipe.html', title='Рацион питания')

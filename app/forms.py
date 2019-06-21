@@ -14,9 +14,10 @@ class RegistrationForm(FlaskForm):
     username = StringField('Логин', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     gender = SelectField('Выберите пол',  choices = [('Мужской','Мужской'),('Женский','Женский')])
+    age = StringField('Количество лет', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password2 = PasswordField('Повторите пароль', validators = [DataRequired(), EqualTo('password')])
-    rules = RadioField('Приложение несет лишь рекомендательный характер. Мы не несем ответственности за ваше здоровье.',choices = [('П','Принимаю'),('О','Отказываюсь')])
+    rules = RadioField(choices = [('П','Ознакомился(-лась) с соглашением и принимаю правила сайта'),('О','Отказываюсь')])
     submit = SubmitField('Зарегистрироваться')
 
     def validate_username(self, username):
@@ -33,11 +34,11 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     weight = StringField('Вес', validators=[DataRequired()])
     height = StringField('Рост', validators=[DataRequired()])
-    arms = StringField('Обхват бицепса', validators=[DataRequired()])
-    shoulder = StringField('Обхват плеч', validators=[DataRequired()])
-    chest = StringField('Обхват груди', validators=[DataRequired()])
-    waist = StringField('Обхват талии', validators=[DataRequired()])
-    femur = StringField('Обхват бёдер', validators=[DataRequired()])
+    arms = StringField('Обхват бицепса')
+    shoulder = StringField('Обхват плеч')
+    chest = StringField('Обхват груди')
+    waist = StringField('Обхват талии')
+    femur = StringField('Обхват бёдер')
     heartDiseases = SelectField('Наличие сердечных заболеваний',  choices = [('No','Нет'),('Yes','Да')])
 
     submit = SubmitField('Обновить')

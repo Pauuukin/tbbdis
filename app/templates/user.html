@@ -4,7 +4,7 @@
 {% block app_content %}
     <table class="table table-hover">
         <tr>
-            <td width="256"><img src="{{ user.avatar(256) }}"></td>
+
             <td>
                 <h1>Пользователь: {{ user.username }}</h1>
                 {% if user.last_seen %}<p>Последний раз в сети: {{ user.last_seen }}</p>{% endif %}
@@ -13,6 +13,7 @@
                 <p><a href="{{ url_for('select_training') }}">Подобрать тренировку!</a></p>
                 {%if current_user.active_training == 1%}
                 <p><a href="{{ url_for('training_user') }}">Посмотреть текущую тренировку.</a></p>
+                <p><a href="{{ url_for('recipe') }}">Посмотреть рекомендуемый рацион питания.</a></p>
                 {% endif %}
                 {% endif %}
             </td>
@@ -21,11 +22,17 @@
     <hr>
     <div class="container" style="margin-top:30px">
   <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-6">
       <h2>Будь лучше</h2>
       <h5>Этот сайт тебе в этом поможет</h5>
       <p>Дорогой друг!</p>
       <p>Поздравляем тебя с регистрацией на нашем сайте! Этот твой первый шаг к здоровому телу и правильному питанию.</p>
+      <br>
+  </div>
+
+      <h2>О нас</h2>
+      <h5>Разарботка проводилась для кафедры физической культуры СПбГТИ(ТУ)</h5>
+      <p>Основной целью разработки является увеличение резервов здоровья пользователей</p>
       <br>
   </div>
 </div>
