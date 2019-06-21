@@ -94,7 +94,9 @@ def edit_profile():
                         shoulder = form.shoulder.data,
                         femur=form.femur.data,
                         heartDiseases=form.heartDiseases.data)
+        current_user.hd = form.heartDiseases.data
         db.session.add(info)
+        db.session.add(current_user)
         db.session.commit()
         flash('Изменения внесены!')
         return redirect(url_for('edit_profile'))
@@ -128,14 +130,21 @@ def pasport():
 def select_training():
     form = SelectTrainingForm()
     if form.validate_on_submit():
+
         select_t = Training(tipe=form.tipe.data,
                             muscle_group=form.muscle_group.data,
                             name_sport=form.name_sport.data,
                             gender = current_user.gender)
-        if select_t.tipe == 'Нет':
-            select_t.tipe = 'Для начинающих'
-        if select_t.muscle_group == 'Нет':
+
+        if current_user.hd == 'Yes':
+            select_t.tipe = 'Сердечные заболевания'
             select_t.muscle_group = 'Все тело'
+            t = select_t.search_training()
+        else:
+            if select_t.tipe == 'Нет':
+                select_t.tipe = 'Для начинающих'
+            if select_t.muscle_group == 'Нет':
+                select_t.muscle_group = 'Все тело'
         t = select_t.search_training()
 
         # нужна проверка на возраст
