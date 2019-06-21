@@ -137,9 +137,8 @@ def select_training():
                             gender = current_user.gender)
 
         if current_user.hd == 'Yes':
-            select_t.tipe = 'Сердечные заболевания'
-            select_t.muscle_group = 'Все тело'
-            t = select_t.search_training()
+            t = select_t.hd_training()
+            return render_template('select_training.html', training=t, form=form)
         else:
             if select_t.tipe == 'Нет':
                 select_t.tipe = 'Для начинающих'

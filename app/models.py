@@ -92,6 +92,10 @@ class Training(db.Model):
         t = Training.query.all()
         return t
 
+    def hd_training(self):
+        selected_training = Training.query.filter(Training.tipe == 'Сердечные заболевания')
+        return selected_training
+
     def search_training(self):
         """первоначальная выборка тренировок"""
         selected_training = Training.query.filter(Training.gender == self.gender).filter((Training.muscle_group == self.muscle_group) & (Training.name_sport == self.name_sport) & (Training.tipe == self.tipe))
