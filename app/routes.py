@@ -96,6 +96,7 @@ def edit_profile():
                         heartDiseases=form.heartDiseases.data)
         db.session.add(info)
         db.session.commit()
+        flash('Изменения внесены!')
         return redirect(url_for('edit_profile'))
         flash('Изменения внесены!')
     # elif request.method == 'GET':
