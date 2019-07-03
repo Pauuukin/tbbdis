@@ -17,6 +17,8 @@ def index():
         training_id = TrainingList(user_id=current_user.id)
         i = training_id.get_training()
         exe = Training(id=i.training_id)
+        count = exe.count_day
+        
         exercises = exe.day_exe(1)
     if form.validate_on_submit():
         flash('Отлично! Приходи завтра, здесь будут новые упражнения!')
